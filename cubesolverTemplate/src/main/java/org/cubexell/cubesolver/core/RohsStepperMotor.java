@@ -54,17 +54,20 @@ public class RohsStepperMotor implements Motor{
             }
             else{
                 in3.high();
-                if(stepSequence[motorStepCounter][3] == 0) {
-                    in4.low();
-                }
-                else{
-                    in4.high();
             }
+            if(stepSequence[motorStepCounter][3] == 0) {
+                in4.low();
+            }
+            else{
+                in4.high();
+            }
+            if (direction)
                 motorStepCounter = (motorStepCounter-1 +8) % 8;//TODO go to the previous step
-            } else{
+
+            else{
                 motorStepCounter= (motorStepCounter+1 ) % 8;//TODO go to next step in the sequence
             }
-            LockSupport.parkNanos(1000000);//wait 1 millisecond
+            LockSupport.parkNanos(1000000);//wait 1 millisecond˚
 
         }
         reset();
