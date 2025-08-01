@@ -6,7 +6,7 @@ import java.util.Arrays;
 import static org.cubexell.cubesolver.core.CubeConstants.*;
 
 public class Cube {
-    public char[][][] cubeColors;
+    public char[][][] cubeColors = null;
     public transient char[][][] cubeColorsCopy = new char[6][3][3];
     public transient char[][] rotatingGrid = new char[3][3];
 
@@ -260,10 +260,7 @@ public class Cube {
                 cornerColor.charAt(0), cornerColor.charAt(1), cornerColor.charAt(2));
     }
 
-    public String[] getScramble(){
-        String[] scramble = randomScramble(20);
-        return scramble;
-    }
+
 
     public String toString(){
         return Helper.faceColorsToString(cubeColors);
@@ -581,31 +578,7 @@ public class Cube {
     }
 
 
-    protected String randomScrambleMove() {
-        int randomIndex = (int)(18*Math.random());
-        return POSSIBLE_MOVES[randomIndex];
-    }
 
-    protected char getFace(String move) {
-        return move.charAt(0);
-    }
-
-    public String[] randomScramble(int numMoves) {
-        String[] scramble = new String[numMoves];
-        scramble[0] = randomScrambleMove();
-
-        for(int i=1; i<numMoves; i++){
-            char prevMoveFace = getFace(scramble[i-1]);
-            String move = randomScrambleMove();
-            char moveFace = getFace(move);
-            while(moveFace == prevMoveFace) {
-                move = randomScrambleMove();
-                moveFace = getFace(move);
-            }
-            scramble[i] = move;
-        }
-        return scramble;
-    }
 
     public String getEdgeColor(int faceIndex1, int faceIndex2){
         //edge between top face and neighbors

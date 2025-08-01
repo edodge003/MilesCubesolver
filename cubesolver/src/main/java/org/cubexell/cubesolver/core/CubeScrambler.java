@@ -38,7 +38,7 @@ public class CubeScrambler {
 	}
 
 	public char[][][] scramble(String[] scrambleMoves){
-		Cube cube = new Cube(Helper.createSolvedCubeColors());
+	    Cube cube = new Cube(Helper.createSolvedCubeColors());
 		cube.simulateMoves(scrambleMoves);
 		if(robot!=null){
 			robot.executeMoves(scrambleMoves);
@@ -47,13 +47,13 @@ public class CubeScrambler {
 	}
 
 	public char[][][] randomScramble(){
-		Cube cube = new Cube(Helper.createSolvedCubeColors());
+	    Cube cube = new Cube(Helper.createSolvedCubeColors());
 		String[] scrambleMoves = getScramble(20);
-		cube.simulateMoves(scrambleMoves);
+	    cube.simulateMoves(scrambleMoves);
 		if(robot!=null){
 			robot.executeMoves(scrambleMoves);
 		}
 		return cube.getCubeColors();
 	}
-
+	
 }

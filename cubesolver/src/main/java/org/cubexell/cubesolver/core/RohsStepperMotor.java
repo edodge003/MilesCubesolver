@@ -11,9 +11,9 @@ public class RohsStepperMotor implements Motor{
     private final DigitalOutput in2;
     private final DigitalOutput in3;
     private final DigitalOutput in4;
-    private final int[][] stepSequence = new int[][]//this is the order of the magnets turning on and off for each step.
+    private final int[][] stepSequence = new int[][]//this is the order of the magnets turning on and off for each step
             {
-                    {1,0,0,1},//step one: in1.high, in2.low, in3.low, in4.high
+                    {1,0,0,1},
                     {1,0,0,0},
                     {1,1,0,0},
                     {0,1,0,0},
@@ -35,39 +35,33 @@ public class RohsStepperMotor implements Motor{
 
     int motorStepCounter = 0;
     public void doTurn(double stepsToTurn, boolean direction) throws InterruptedException {
-        for (int i = 0 ; i < stepsToTurn; i++){//TODO done i like dirt
-            //TODO for all pins, set the corresponding "in" to high(if 1) or low(if 0) based on the step in the step sequence
-            if(stepSequence[motorStepCounter][0] == 0) {
-                in1.low();
+        for (int i=0; i<stepsToTurn; i++){//for all steps to turn
+            if (stepSequence[motorStepCounter][0] == 1){//these if statements are to see if a signal should be sent or not. one is sent, 0 is not. one if statement for each pin.
+                in1.high();//doing stuff
+            } else{
+                in1.low();//not doing stuff
             }
-            else{
-                in1.high();
-            }
-            if(stepSequence[motorStepCounter][1] == 0) {
+            if (stepSequence[motorStepCounter][1] == 1){
+                in2.high();
+            } else{
                 in2.low();
             }
-            else{
-                in2.high();
-            }
-            if(stepSequence[motorStepCounter][2] == 0) {
+            if (stepSequence[motorStepCounter][2] == 1){
+                in3.high();
+            } else{
                 in3.low();
             }
-            else{
-                in3.high();
-            }
-            if(stepSequence[motorStepCounter][3] == 0) {
+            if (stepSequence[motorStepCounter][3] == 1){
+                in4.high();
+            } else{
                 in4.low();
             }
-            else{
-                in4.high();
+            if (direction){
+                motorStepCounter = ((motorStepCounter-1)+stepSequence.length)%stepSequence.length;//go to the previous step if turning the other way.
+            } else{
+                motorStepCounter = (motorStepCounter+1)%stepSequence.length;//go to next step in the sequence
             }
-            if (direction)
-                motorStepCounter = (motorStepCounter-1 +8) % 8;//TODO go to the previous step
-
-            else{
-                motorStepCounter= (motorStepCounter+1 ) % 8;//TODO go to next step in the sequence
-            }
-            LockSupport.parkNanos(1000000);//wait 1 millisecond˚
+            LockSupport.parkNanos(1000000);//wait 1 millisecond
 
         }
         reset();
@@ -75,8 +69,8 @@ public class RohsStepperMotor implements Motor{
 
     public void turn(double numRotations){
         boolean direction = false;
-        if (numRotations <0){//TODO if numRotations is negative
-            direction=true;//TODO set direction to true
+        if (numRotations < 0){//if negative
+            direction = true;
             numRotations = numRotations*-1;//make it positive now that we have adjusted direction.
         }
         try {
